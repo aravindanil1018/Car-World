@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Car World</title>
+    <link rel="icon" type="img/png" href="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTci6Ca3rtFtMjQRaWvEhHVyYxScMPgsWIItw&s">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>
+   
+</head>
+<body>
+
+<h1 style="text-align: center;">Car World</h1>
+<div class="row m-5">
+    <div class="col-sm-3 mb-3 mb-sm-0">
+        <div class="card">
+            <div class="card-body">
+                <h2>Enter Details</h2>
+                <label for="brand">Brand</label>
+                <input type="text" id="brand" name="brand" class="form-control" title="Enter the brand of the car" placeholder="Brand"><br>
+                <label for="price">Price</label>
+                <input type="number" step=".01" id="price" name="price" class="form-control" title="Enter the price of the car" placeholder="Price"><br>
+                <label for="key">Key</label>
+                <input type="text" id="key" name="key" class="form-control" title="Enter a unique identifier for the car" placeholder="Key"><br><br>
+                <button onclick="add_car()" class="btn btn-primary">Store Records</button>
+            </div>
+        </div>
+    </div>
+    <div class="col-sm-3">
+        <div class="card">
+            <div class="card-body">
+                <h2>Enter the key to Retrieve Item</h2>
+                <label for="get_key">Key</label>
+                <input type="text" class="form-control" id="get_key" name="get_key" title="Enter the key to retrieve the car record" placeholder="Key"><br>
+                <button onclick="get_car()"  class="btn btn-primary">Retrieve Record</button>
+                <div class="result"  id="result"></div>
+            </div>
+        </div>
+    </div>
+    <div class="col-sm-4">
+        <div class="card">
+            <div class="card-body">
+                <h2>Enter the key to Delete Item</h2>
+                <label for="del_key">Key</label>
+                <input type="text" class="form-control" id="del_key" name="del_key" title="Enter the key to delete the car record" placeholder="Key"><br>
+                <button onclick="delete_car()" class="btn btn-danger">Delete Record</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    function add_car() {
+        const cars = {
+            brand: brand.value,
+            price: price.value,
+            key: key.value
+        };
+
+        if (cars.brand === "" || cars.price === "" || cars.key === "") {
+            alert("All fields are required");
+        } else {
+            localStorage.setItem(cars.key, JSON.stringify(cars));
+            alert('Record added Successfully');
+        }
+    }
+
+    function get_car() {
+        var item = get_key.value;
+        console.log(item);
+        if (item in localStorage) {
+            se = localStorage.getItem(item);
+            console.log(se);
+            car = JSON.parse(se);
+
+            result.innerHTML = `<div class="card" style="width: 18rem;">
+                <ul class="list-group list-group-flush">
+                    <li class="list-group-item">Brand: ${car.brand}</li>
+                    <li class="list-group-item">Price: ${car.price}</li>
+                    <li class="list-group-item">Key: ${car.key}</li>
+                </ul>
+            </div>`;
+        } else {
+            alert("No Details Found");
+        }
+    }
+
+    function delete_car() {
+        var item = del_key.value;
+        console.log(item);
+        if (item in localStorage) {
+            localStorage.removeItem(item);
+            alert("Deleted Successfully");
+        } else {
+            alert('Key not found');
+        }
+    }
+</script>
+
+</body>
+</html>
